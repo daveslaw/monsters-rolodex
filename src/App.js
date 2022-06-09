@@ -41,6 +41,7 @@ class App extends Component {
 		console.log("Render from AppJS");
 		return (
 			<div className="App">
+				<h2 className="app-title">Monsters Rolodex</h2>
 				<SearchBox
 					className="monsters-search-box"
 					placeholder="search monsters"
