@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-import CardList from "./components/CardList";
-import SearchBox from "./components/SearchBox";
+import CardList from "./components/CardList/CardList";
+import SearchBox from "./components/SearchBox/SearchBox";
 
 class App extends Component {
 	constructor() {
@@ -42,7 +42,7 @@ class App extends Component {
 		return (
 			<div className="App">
 				<SearchBox
-					className="search-box"
+					className="monsters-search-box"
 					placeholder="search monsters"
 					handleSearch={handleSearch}
 				/>
