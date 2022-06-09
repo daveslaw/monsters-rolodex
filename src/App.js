@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
+import CardList from "./components/CardList";
+import SearchBox from "./components/SearchBox";
 
 class App extends Component {
 	constructor() {
@@ -7,55 +9,47 @@ class App extends Component {
 
 		this.state = {
 			monsters: [],
-			searchInput: '',
+			searchInput: "",
 		};
-		console.log("constructor");
+		// console.log("constructor");
 	}
 
 	componentDidMount() {
-		console.log("componentDidMount");
+		// console.log("componentDidMount");
 		fetch("https://jsonplaceholder.typicode.com/users")
 			.then((response) => response.json())
 			.then((users) =>
-				this.setState(
-					() => {
-						return { monsters: users };
-					},
-					() => {
-						console.log(this.state);
-					}
-				)
+				this.setState(() => {
+					return { monsters: users };
+				})
 			);
 	}
 
+	handleSearch = (event) => {
+		const searchInput = event.target.value.toLocaleLowerCase();
+		this.setState(() => {
+			return { searchInput };
+		});
+	};
+
 	render() {
-		const filteredMonsters = this.state.monsters.filter((monster)=> {
-			return monster.name.toLocaleLowerCase().includes(this.state.searchInput)
-		})
-		console.log("Render");
+		const { monsters, searchInput } = this.state;
+		const { handleSearch } = this;
+		const filteredMonsters = monsters.filter((monster) => {
+			return monster.name.toLocaleLowerCase().includes(searchInput);
+		});
+		console.log("Render from AppJS");
 		return (
 			<div className="App">
-				<input
+				<SearchBox
 					className="search-box"
-					type="search"
-					placeholder="Search monsters"
-					onChange={(event) => {
-						const searchInput = event.target.value.toLocaleLowerCase();
-						
-						this.setState(()=>{
-							return { searchInput }
-						})
-						console.log(event.target.value);
-					}}
+					placeholder="search monsters"
+					handleSearch={handleSearch}
 				/>
-				{filteredMonsters.map((monster) => {
-					return <h1 key={monster.id}>{monster.name}</h1>;
-				})}
+				<CardList monsters={filteredMonsters} />
 			</div>
 		);
 	}
 }
-
-App.propTypes = {};
 
 export default App;
